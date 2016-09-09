@@ -1,0 +1,10 @@
+E:\KIT\923\Lab 1 931\Lab 1 931\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\KIT\923\Lab 1 931\Lab 1 931\bin\Debug\Lab 1 931.exe
+E:\KIT\923\Lab 1 931\Lab 1 931\bin\Debug\Lab 1 931.pdb
+E:\KIT\923\Lab 1 931\Lab 1 931\obj\x86\Debug\Lab 1 931.exe
+E:\KIT\923\Lab 1 931\Lab 1 931\obj\x86\Debug\Lab 1 931.pdb
+C:\Users\Iam\Documents\Visual Studio 2015\Projects\Lab_1_931\Lab 1 931\Lab 1 931\obj\x86\Debug\Lab 1 931.exe
+C:\Users\Iam\Documents\Visual Studio 2015\Projects\Lab_1_931\Lab 1 931\Lab 1 931\obj\x86\Debug\Lab 1 931.pdb
+C:\Users\Iam\Documents\Visual Studio 2015\Projects\Lab_1_931\Lab 1 931\Lab 1 931\obj\x86\Debug\Lab 1 931.csprojResolveAssemblyReference.cache
+C:\Users\Iam\Documents\Visual Studio 2015\Projects\Lab_1_931\Lab 1 931\Lab 1 931\bin\Debug\Lab 1 931.exe
+C:\Users\Iam\Documents\Visual Studio 2015\Projects\Lab_1_931\Lab 1 931\Lab 1 931\bin\Debug\Lab 1 931.pdb
