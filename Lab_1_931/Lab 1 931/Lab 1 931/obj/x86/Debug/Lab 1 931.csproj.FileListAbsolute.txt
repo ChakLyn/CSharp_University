@@ -8,3 +8,8 @@ C:\Users\Iam\Documents\Visual Studio 2015\Projects\Lab_1_931\Lab 1 931\Lab 1 931
 C:\Users\Iam\Documents\Visual Studio 2015\Projects\Lab_1_931\Lab 1 931\Lab 1 931\obj\x86\Debug\Lab 1 931.csprojResolveAssemblyReference.cache
 C:\Users\Iam\Documents\Visual Studio 2015\Projects\Lab_1_931\Lab 1 931\Lab 1 931\bin\Debug\Lab 1 931.exe
 C:\Users\Iam\Documents\Visual Studio 2015\Projects\Lab_1_931\Lab 1 931\Lab 1 931\bin\Debug\Lab 1 931.pdb
+C:\Users\Iam\Documents\GitHub\CSharp_University\Lab_1_931\Lab 1 931\Lab 1 931\obj\x86\Debug\Lab 1 931.exe
+C:\Users\Iam\Documents\GitHub\CSharp_University\Lab_1_931\Lab 1 931\Lab 1 931\obj\x86\Debug\Lab 1 931.pdb
+C:\Users\Iam\Documents\GitHub\CSharp_University\Lab_1_931\Lab 1 931\Lab 1 931\bin\Debug\Lab 1 931.exe
+C:\Users\Iam\Documents\GitHub\CSharp_University\Lab_1_931\Lab 1 931\Lab 1 931\bin\Debug\Lab 1 931.pdb
+C:\Users\Iam\Documents\GitHub\CSharp_University\Lab_1_931\Lab 1 931\Lab 1 931\obj\x86\Debug\Lab 1 931.csprojResolveAssemblyReference.cache

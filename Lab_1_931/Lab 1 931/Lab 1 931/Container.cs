@@ -1,38 +1,64 @@
-﻿// This file has been created for creating HumanContainer class
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿//-----------------------------------------------------------------------
+// <copyright file="Container.cs" company="My Company">
+//     Some info
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Lab_1_931
 {
-    /// <summary>
-    ///  Class HumanContainer stocks inside him humans' objects
-    /// </summary>
-    public class HumanContainer : IEnumerable, IContainer
-    {
-        /// <summary>
-        /// This field appends needed string for 
-        /// creating message which contains all information 
-        /// about all Humans' objects
-        /// </summary>
-        private StringBuilder strBuilder;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Text;
+    using System.Xml;
+    using System.Xml.Serialization;
 
+    /// <summary>
+    /// Class which contains humans
+    /// </summary>
+    /// <typeparam name="TValue">Which humans will be added</typeparam>
+    public class HumanContainer<TValue> : IEnumerable, IFileContainer<TValue> where TValue : Human
+    {
         /// <summary>
         /// This field stocks in itself Humans' objects
         /// </summary>
-        private List<Human> humans;
+        private List<TValue> humans;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HumanContainer"/> class.
-        /// There initializes string builder and list of humans.
+        /// True if data is saved
+        /// False in opposite way
+        /// </summary>
+        private bool dataSaved;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HumanContainer{TValue}"/> class.
         /// </summary>
         public HumanContainer()
         {
-            strBuilder = new StringBuilder();
-            humans = new List<Human>();
+            this.humans = new List<TValue>();
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether saved state
+        /// </summary>
+        public bool IsDataSaved
+        {
+            get
+            {
+                return this.dataSaved == true;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value of object's count
+        /// </summary>
+        public int Count
+        {
+            get
+            {
+                return this.humans.Count;
+            }
         }
 
         /// <summary>
@@ -42,17 +68,17 @@ namespace Lab_1_931
         /// </summary>
         /// <param name="index">Integer type of index</param>
         /// <returns>object type with </returns>
-        public object this[int index]
+        public TValue this[int index]
         {
             get
             {
                 try
                 {
-                    return (Human)humans[index];
+                    return this.humans[index];
                 }
                 catch (ArgumentOutOfRangeException e)
                 {
-                    throw new IndexOutOfRangeException();
+                    throw new ArgumentOutOfRangeException("Wrong index! The sender is {0}", e);
                 }
             }
 
@@ -60,11 +86,11 @@ namespace Lab_1_931
             {
                 try
                 {
-                    humans[index] = (Human)value;
+                    this.humans[index] = value;
                 }
                 catch (ArgumentOutOfRangeException e)
                 {
-                    Console.WriteLine("Argument out of range exeption!");
+                    Console.WriteLine("Argument out of range exeption! The sender is {0}\n", e);
                     Console.ReadLine();
                 }
             }
@@ -74,42 +100,123 @@ namespace Lab_1_931
         /// This method adds new humans' object in HumanContainer
         /// </summary>
         /// <param name="hum">Human mas type of the hum</param>
-        public void AddHuman(params Human[] hum)
+        public void Add(params TValue[] hum)
         {
             try
             {
-                foreach (Human h in hum)
+                foreach (TValue h in hum)
                 {
-                    humans.Add(h);
+                    this.humans.Add(h);
+                    h.StateChanged += this.SomeNews;
                 }
             }
             catch (ArgumentOutOfRangeException e)
             {
-                Console.WriteLine("Argument out of range exeption!");
+                Console.WriteLine("Argument out of range exeption! THe sender is {0}", e);
                 Console.ReadLine();
             }
         }
-        
+
+        /// <summary>
+        /// Travel in the future increasing the age of humans
+        /// </summary>
+        /// <param name="detlaYears">How much years to go</param>
+        public void Future(int detlaYears)
+        {
+            if (detlaYears > 0)
+            {
+                foreach (TValue h in this.humans)
+                {
+                    h.Grow(detlaYears);
+                }
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("Can't grow back!");
+            }
+        }
+
+        /// <summary>
+        /// Delete humans from container
+        /// </summary>
+        /// <param name="hum">List of humans to delete</param>
+        public void Delete(params TValue[] hum)
+        {
+            foreach (TValue h in hum)
+            {
+                h.StateChanged -= this.SomeNews;
+                this.humans.Remove(h);
+            }
+        }
+
         /// <summary>
         /// This method overloads ToString method
         /// </summary>
         /// <returns>string type returning</returns>
         public override string ToString()
         {
+            StringBuilder strBuilder = new StringBuilder();
             try
             {
-                foreach (Human h in humans)
+                foreach (TValue h in this.humans)
                 {
                     strBuilder.Append(h);
                 }
             }
             catch (NullReferenceException e)
             {
-                Console.WriteLine("There is nothing to show!");
+                Console.WriteLine("There is nothing to show! The sender is {0}", e);
                 Console.ReadLine();
             }
 
             return strBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Save list of humans in .xml file
+        /// </summary>
+        /// <param name="fileName">Name of the file</param>
+        public void Save(string fileName)
+        {
+            this.dataSaved = true;
+            try
+            {
+                using (Stream fileStream = new FileStream(
+                    fileName + ".xml",
+                   FileMode.Create,
+                   FileAccess.Write,
+                   FileShare.None))
+                {
+                    XmlSerializer xmlFormat = new XmlSerializer(typeof(List<TValue>));
+                    xmlFormat.Serialize(fileStream, this.humans);
+                    fileStream.Close();
+                }
+            }
+            catch(IOException e)
+            {
+                Console.WriteLine("Something wrong with file! Try again\n{0}", e);
+            }
+        }
+
+        /// <summary>
+        /// Load list of human into container from .xml file
+        /// </summary>
+        /// <param name="fileName">Name of the file</param>
+        public void Load(string fileName)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(List<TValue>));
+            try
+            {
+                using (FileStream fs = new FileStream(fileName + ".xml", FileMode.Open))
+                {
+                    XmlReader reader = XmlReader.Create(fs);
+                    this.humans = (List<TValue>)serializer.Deserialize(reader);
+                }
+            }
+            catch(IOException e)
+            {
+                Console.WriteLine("Something wrong with deserializisation {0}", e);
+            }
         }
 
         /// <summary>
@@ -119,7 +226,22 @@ namespace Lab_1_931
         /// <returns>IEnumerator type</returns>
         public IEnumerator GetEnumerator()
         {
-            return humans.GetEnumerator();
+            return this.humans.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Inform about new of the state
+        /// </summary>
+        /// <param name="sender">which object send a message</param>
+        /// <param name="e">arguments of sent information</param>
+        private void SomeNews(object sender, HumanEventArgs e)
+        {
+            if (sender is TValue)
+            {
+                TValue t = (TValue)sender;
+                Console.WriteLine("{0} => says: {1}\n", t.Name, e.Msg);
+                this.dataSaved = false;
+            }
         }
     }
 }

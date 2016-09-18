@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ArrayOfHuman xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Human>
+    <Name>Colin</Name>
+    <Age>94</Age>
+    <Weight>34.5</Weight>
+    <IsAlive>false</IsAlive>
+  </Human>
+  <Human>
+    <Name>Pedro</Name>
+    <Age>94</Age>
+    <Weight>78</Weight>
+    <IsAlive>false</IsAlive>
+  </Human>
+  <Human>
+    <Name>Ben</Name>
+    <Age>100</Age>
+    <Weight>50</Weight>
+    <IsAlive>false</IsAlive>
+  </Human>
+</ArrayOfHuman>
